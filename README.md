@@ -11,8 +11,8 @@
 
 | Role  | Permissions |
 |-------|-------------|
-| **User**  | Register, login, submit complaints, view & track own complaints only |
-| **Admin** | Login, view ALL complaints, update status, delete complaints, manage admin accounts |
+| **User**  | Register, login, submit complaints,delete complaints, view & track own complaints only |
+| **Admin** | Login, view ALL complaints, update status, manage admin accounts |
 
 > Admins cannot submit complaints. Users cannot access the admin panel.
 > After login, each role is automatically redirected to their correct dashboard.
