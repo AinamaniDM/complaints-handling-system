@@ -1,7 +1,6 @@
-# Online Complaints Handling System — Test 2
+# Online Complaints Handling System 
 
 **Student:** Ainamani Dickson
-**Reg No:** JAN/BSE/2433U
 **Course:** Selected Topics in Software Engineering
 **Framework:** Laravel 10+ (PHP)
 **Database:** PostgreSQL
@@ -171,3 +170,5 @@ Run `mkdir bootstrap/cache`
 - **Database:** PostgreSQL
 - **Frontend:** Bootstrap 5.3, Font Awesome 6
 - **Tools:** VS Code, Laragon
+
+  
