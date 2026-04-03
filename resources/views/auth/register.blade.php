@@ -3,8 +3,9 @@
 @section('content')
 <div class="auth-wrapper">
   <div class="auth-card">
-    <div class="logo-area">
-      <div class="badge-org">UTAMU — Complaints System</div>
+    
+  <div style="text-align:center;margin-bottom:26px;">
+  <img src="{{ asset('images/utamulogo.jpg') }}" alt="UTAMU Logo" style="height:70px;margin-bottom:12px;">
       <h2 class="fw-bold fs-4 mt-2">Create Account</h2>
       <p class="text-muted small">Register to submit and track your complaints</p>
     </div>
