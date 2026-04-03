@@ -11,7 +11,7 @@
 
 | Role  | Permissions |
 |-------|-------------|
-| **User**  | Register, login, submit complaints,delete complaints, view & track own complaints only |
+| **User**  | Register, login, submit complaints,delete complaints, view & track own complaints only, reply to comments from admin() |
 | **Admin** | Login, view ALL complaints, update status, manage admin accounts |
 
 > Admins cannot submit complaints. Users cannot access the admin panel.
@@ -36,8 +36,9 @@
 | Pagination | ✅ |
 | Manage admin accounts (create / delete) | ✅ |
 | Input validation on all forms | ✅ |
-| Professional sidebar UI | ✅ |
-
+| All users can add comments to the complain. these comments can also be replied to
+| file attachment(optional) to the complaint. allowed files include images, audio and video
+|Report generation (pdf report or csv data export) 
 ---
 
 ## Setup Instructions
@@ -87,8 +88,8 @@ DB_CONNECTION=pgsql
 DB_HOST=127.0.0.1
 DB_PORT=5432
 DB_DATABASE=complaints_db
-DB_USERNAME=postgres
-DB_PASSWORD=
+DB_USERNAME=postgres(if you don't use default username, put here what you use as your postgresql username)
+DB_PASSWORD= put here your database password
 ```
 
 ### Step 5 — Generate app key
@@ -172,3 +173,4 @@ Run `mkdir bootstrap/cache`
 - **Tools:** VS Code, Laragon
 
   
+Access this live project at:url to the deployed project(to be put soon)
