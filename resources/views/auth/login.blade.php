@@ -3,7 +3,7 @@
 @section('content')
 <div class="auth-wrapper">
   <div class="auth-card">
-    <div style="text-align:center;margin-bottom:26px;">
+  <div style="text-align:center;margin-bottom:26px;">
   <img src="{{ asset('images/utamulogo.jpg') }}" alt="UTAMU Logo" style="height:70px;margin-bottom:12px;">
   <h2 class="fw-bold fs-4 mt-2">Welcome Back</h2>
   <p class="text-muted small">Sign in to your account</p>
