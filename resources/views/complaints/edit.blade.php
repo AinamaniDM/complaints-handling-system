@@ -19,7 +19,7 @@
           <div class="fw-semibold">{{ $complaint->user->name }}</div>
           <div class="text-muted small">{{ $complaint->user->email }}</div>
           <div class="mt-2 d-flex gap-2 align-items-center flex-wrap">
-            <span class="badge bg-light text-dark border">{{ $complaint->category }}</span>
+            <span class="badge bg-light text-dark border">{{ $complaint->category->name }}</span>
             <span class="status-badge {{ $complaint->statusBadgeClass() }}">{{ $complaint->status }}</span>
           </div>
           <div class="mt-2 text-muted small">{{ Str::limit($complaint->description, 150) }}</div>
