@@ -9,7 +9,11 @@ class Complaint extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'category', 'description', 'status'];
+    // ── UPDATED: added category_id, attachment, attachment_type ──────────────
+    protected $fillable = [
+        'user_id', 'category_id', 'description',
+        'status', 'attachment', 'attachment_type',
+    ];
 
     const STATUS_PENDING     = 'Pending';
     const STATUS_IN_PROGRESS = 'In Progress';
@@ -25,15 +29,16 @@ class Complaint extends Model
         return $query->where('status', $status);
     }
 
+    // ── UPDATED: search now includes category name ────────────────────────────
     public function scopeSearch($query, $keyword)
     {
         return $query->where(function ($q) use ($keyword) {
-            $q->where('category', 'ilike', "%{$keyword}%")
-              ->orWhere('description', 'ilike', "%{$keyword}%")
-              ->orWhereHas('user', function ($u) use ($keyword) {
-                  $u->where('name', 'ilike', "%{$keyword}%")
-                    ->orWhere('email', 'ilike', "%{$keyword}%");
-              });
+            $q->where('description', 'ilike', "%{$keyword}%")
+              ->orWhereHas('category', fn($c) => $c->where('name', 'ilike', "%{$keyword}%"))
+              ->orWhereHas('user', fn($u) =>
+                  $u->where('name',  'ilike', "%{$keyword}%")
+                    ->orWhere('email', 'ilike', "%{$keyword}%")
+              );
         });
     }
 
@@ -47,8 +52,26 @@ class Complaint extends Model
         };
     }
 
+    // ── NEW: attachment type helpers ──────────────────────────────────────────
+    public function isImage(): bool { return $this->attachment_type === 'image'; }
+    public function isPdf(): bool   { return $this->attachment_type === 'pdf'; }
+    public function isAudio(): bool { return $this->attachment_type === 'audio'; }
+    public function isVideo(): bool { return $this->attachment_type === 'video'; }
+
+    // ── Relationships ─────────────────────────────────────────────────────────
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    // ── NEW: category and comments relationships ──────────────────────────────
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class)->with('user')->oldest();
     }
 }

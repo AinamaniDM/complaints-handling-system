@@ -76,7 +76,7 @@
         @forelse($complaints as $complaint)
         <tr>
           <td class="text-muted small">{{ $complaint->id }}</td>
-          <td><span class="badge bg-light text-dark border">{{ $complaint->category }}</span></td>
+          <td><span class="badge bg-light text-dark border">{{ $complaint->category->name }}</span></td>
           <td>
             <span class="d-inline-block text-truncate" style="max-width:260px;" title="{{ $complaint->description }}">
               {{ $complaint->description }}
