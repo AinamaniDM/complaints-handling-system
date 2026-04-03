@@ -16,11 +16,11 @@
 </style>
 </head>
 <body>
-<h1>Online Complaints Handling System — Export Report</h1>
+<h1>UTAMU Complaints Handling System Report</h1>
 <div class="meta">
   Generated: {{ now()->format('d M Y, H:i') }}
   &nbsp;|&nbsp; Total complaints: {{ $complaints->count() }}
-  &nbsp;|&nbsp; Uganda Technology and Management University (UTAMU)
+  &nbsp;|&nbsp; Universal Technology and Management University (UTAMU)
 </div>
 <table>
   <thead>
