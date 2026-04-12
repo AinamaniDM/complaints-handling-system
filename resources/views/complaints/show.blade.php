@@ -20,7 +20,6 @@
           @endif
         </div>
       </div>
-
       <div class="p-4">
         <div class="row g-4">
           <div class="col-md-6">
@@ -30,7 +29,7 @@
           </div>
           <div class="col-md-6">
             <div class="text-muted small fw-semibold text-uppercase mb-1">Category</div>
-            <span class="badge bg-light text-dark border">{{ $complaint->category->name }}</span>
+            <span class="badge bg-light text-dark border">{{ $complaint->category?->name ?? 'Uncategorized' }}</span>
           </div>
           <div class="col-md-6">
             <div class="text-muted small fw-semibold text-uppercase mb-1">Status</div>
@@ -45,48 +44,29 @@
             <div class="bg-light p-3 rounded" style="white-space:pre-wrap;line-height:1.7;">{{ $complaint->description }}</div>
           </div>
 
-          {{-- NEW: Attachment preview --}}
+          {{-- Complaint attachment --}}
           @if($complaint->attachment)
           <div class="col-12">
             <div class="text-muted small fw-semibold text-uppercase mb-2">Attachment</div>
             <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:14px;">
               @if($complaint->isImage())
-                <img src="{{ Storage::url($complaint->attachment) }}"
-                     class="img-fluid rounded" style="max-height:300px;" alt="Attachment">
-
+                <img src="{{ Storage::url($complaint->attachment) }}" class="img-fluid rounded" style="max-height:300px;" alt="Attachment">
               @elseif($complaint->isPdf())
                 <div class="d-flex align-items-center gap-3">
                   <i class="fas fa-file-pdf text-danger fs-3"></i>
                   <div>
                     <div class="fw-semibold small">PDF Document</div>
-                    <a href="{{ Storage::url($complaint->attachment) }}" target="_blank"
-                       class="btn btn-sm btn-outline-danger mt-1">
+                    <a href="{{ Storage::url($complaint->attachment) }}" target="_blank" class="btn btn-sm btn-outline-danger mt-1">
                       <i class="fas fa-external-link-alt me-1"></i>Open PDF
                     </a>
                   </div>
                 </div>
-
               @elseif($complaint->isAudio())
-                <div>
-                  <div class="fw-semibold small mb-2">
-                    <i class="fas fa-music text-primary me-2"></i>Audio File
-                  </div>
-                  <audio controls class="w-100">
-                    <source src="{{ Storage::url($complaint->attachment) }}">
-                    Your browser does not support audio playback.
-                  </audio>
-                </div>
-
+                <div class="fw-semibold small mb-2"><i class="fas fa-music text-primary me-2"></i>Audio File</div>
+                <audio controls class="w-100"><source src="{{ Storage::url($complaint->attachment) }}">Your browser does not support audio.</audio>
               @elseif($complaint->isVideo())
-                <div>
-                  <div class="fw-semibold small mb-2">
-                    <i class="fas fa-video text-warning me-2"></i>Video File
-                  </div>
-                  <video controls class="w-100 rounded" style="max-height:300px;">
-                    <source src="{{ Storage::url($complaint->attachment) }}">
-                    Your browser does not support video playback.
-                  </video>
-                </div>
+                <div class="fw-semibold small mb-2"><i class="fas fa-video text-warning me-2"></i>Video File</div>
+                <video controls class="w-100 rounded" style="max-height:300px;"><source src="{{ Storage::url($complaint->attachment) }}">Your browser does not support video.</video>
               @endif
             </div>
           </div>
@@ -95,7 +75,7 @@
       </div>
     </div>
 
-    {{-- NEW: Comments & Replies section --}}
+    {{-- Comments & Replies --}}
     <div class="content-card">
       <div class="card-header-custom">
         <h5>
@@ -105,7 +85,6 @@
       </div>
       <div class="p-4">
 
-        {{-- Display comments --}}
         @forelse($complaint->comments as $comment)
         <div class="mb-3 p-3 rounded"
              style="{{ $comment->isFromAdmin()
@@ -117,13 +96,36 @@
             <strong class="small">{{ $comment->user->name }}</strong>
             <span class="status-badge {{ $comment->isFromAdmin() ? 'badge-info' : 'badge-success' }}"
                   style="font-size:.65rem;">
-              {{ $comment->isFromAdmin() ? 'Admin' : 'User' }}
+              {{ $comment->isFromAdmin() ? ($comment->user->adminRoleLabel()) : 'User' }}
             </span>
             <span class="text-muted" style="font-size:.74rem;">
               {{ $comment->created_at->format('d M Y, H:i') }}
             </span>
           </div>
-          <div style="font-size:.87rem;color:#1e293b;line-height:1.5;">{{ $comment->body }}</div>
+          <div style="font-size:.87rem;color:#1e293b;line-height:1.5;" class="mb-2">{{ $comment->body }}</div>
+
+          {{-- Comment attachment --}}
+          @if($comment->hasAttachment())
+          <div style="background:white;border:1px solid #e2e8f0;border-radius:8px;padding:10px;margin-top:8px;">
+            <div class="text-muted small fw-semibold mb-2">
+              <i class="fas fa-paperclip me-1"></i>Attached Evidence
+            </div>
+            @if($comment->isImage())
+              <img src="{{ Storage::url($comment->attachment) }}" class="img-fluid rounded" style="max-height:200px;" alt="Evidence">
+            @elseif($comment->isPdf())
+              <div class="d-flex align-items-center gap-3">
+                <i class="fas fa-file-pdf text-danger fs-4"></i>
+                <a href="{{ Storage::url($comment->attachment) }}" target="_blank" class="btn btn-sm btn-outline-danger">
+                  <i class="fas fa-external-link-alt me-1"></i>Open PDF
+                </a>
+              </div>
+            @elseif($comment->isAudio())
+              <audio controls class="w-100"><source src="{{ Storage::url($comment->attachment) }}">Your browser does not support audio.</audio>
+            @elseif($comment->isVideo())
+              <video controls class="w-100 rounded" style="max-height:200px;"><source src="{{ Storage::url($comment->attachment) }}">Your browser does not support video.</video>
+            @endif
+          </div>
+          @endif
         </div>
         @empty
         <p class="text-muted small text-center py-3">
@@ -131,7 +133,7 @@
         </p>
         @endforelse
 
-        {{-- Reply form --}}
+        {{-- Reply form with attachment --}}
         <div class="mt-4 pt-3 border-top">
           <label class="form-label fw-semibold">
             <i class="fas fa-reply me-2 text-primary"></i>
@@ -139,15 +141,31 @@
           </label>
 
           @if(auth()->user()->isAdmin())
-            <form method="POST" action="{{ route('admin.complaints.comments.store', $complaint) }}">
+            <form method="POST" action="{{ route('admin.complaints.comments.store', $complaint) }}" enctype="multipart/form-data">
           @else
-            <form method="POST" action="{{ route('complaints.comments.store', $complaint) }}">
+            <form method="POST" action="{{ route('complaints.comments.store', $complaint) }}" enctype="multipart/form-data">
           @endif
             @csrf
-            <textarea name="body" rows="3"
-              class="form-control mb-3 @error('body') is-invalid @enderror"
-              placeholder="Write your reply…" required>{{ old('body') }}</textarea>
-            @error('body')<div class="invalid-feedback">{{ $message }}</div>@enderror
+            <div class="mb-3">
+              <textarea name="body" rows="3"
+                class="form-control @error('body') is-invalid @enderror"
+                placeholder="Write your reply…" required>{{ old('body') }}</textarea>
+              @error('body')<div class="invalid-feedback">{{ $message }}</div>@enderror
+            </div>
+
+            {{-- Attachment for comment --}}
+            <div class="mb-3">
+              <label class="form-label small fw-semibold">
+                <i class="fas fa-paperclip me-1"></i>
+                Attach Evidence <span class="text-muted fw-normal">(optional)</span>
+              </label>
+              <input type="file" name="attachment"
+                class="form-control form-control-sm @error('attachment') is-invalid @enderror"
+                accept=".jpg,.jpeg,.png,.gif,.pdf,.mp3,.wav,.mp4,.mov,.avi">
+              <div class="form-text text-muted">Images, PDF, Audio or Video — Max 20MB</div>
+              @error('attachment')<div class="invalid-feedback">{{ $message }}</div>@enderror
+            </div>
+
             <button type="submit" class="btn btn-primary">
               <i class="fas fa-paper-plane me-2"></i>Post Reply
             </button>
@@ -156,7 +174,6 @@
 
       </div>
     </div>
-
   </div>
 </div>
 @endsection
