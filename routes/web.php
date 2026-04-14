@@ -6,7 +6,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
 
-// ── Guest routes ──────────────────────────────────────────────────────────────
+// Guest routes
 Route::middleware('guest')->group(function () {
     Route::get('/',          [AuthController::class, 'showLogin'])->name('home');
     Route::get('/login',     [AuthController::class, 'showLogin'])->name('login');
@@ -15,10 +15,10 @@ Route::middleware('guest')->group(function () {
     Route::post('/register', [AuthController::class, 'register']);
 });
 
-// ── Logout ────────────────────────────────────────────────────────────────────
+// Logout 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
 
-// ── User routes ───────────────────────────────────────────────────────────────
+// User routes
 Route::middleware(['auth', 'role:user'])->group(function () {
     Route::get('/my-complaints',             [ComplaintController::class, 'userDashboard'])->name('user.dashboard');
     Route::get('/complaints/create',         [ComplaintController::class, 'create'])->name('complaints.create');
@@ -28,7 +28,7 @@ Route::middleware(['auth', 'role:user'])->group(function () {
     Route::post('/complaints/{complaint}/comments', [ComplaintController::class, 'storeComment'])->name('complaints.comments.store');
 });
 
-// ── Admin routes ──────────────────────────────────────────────────────────────
+// Admin routes 
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [ComplaintController::class, 'adminDashboard'])->name('dashboard');
 

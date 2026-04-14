@@ -1,44 +1,52 @@
-# Online Complaints Handling System 
+# Online Complaints Handling System
 
-**Student:** Ainamani Dickson
-**Course:** Selected Topics in Software Engineering
-**Framework:** Laravel 10+ (PHP)
-**Database:** PostgreSQL
+**Student:** Ainamani Dickson | **Reg No:** JAN23/BSE/2433U
+**Course:** Selected Topics in Software Engineering — CSE 4200
+**Institution:** Uganda Technology and Management University (UTAMU)
+**Framework:** Laravel 10+ (PHP) | **Database:** PostgreSQL
 
----
+## System Description
+
+A web-based complaint management platform that allows users to submit complaints digitally and enables administrators to manage, respond to, and resolve them efficiently. The system enforces strict role-based access control across three user levels.
+
 
 ## User Roles
 
-| Role  | Permissions |
-|-------|-------------|
-| **User**  | Register, login, submit complaints,delete complaints, view & track own complaints only, reply to comments from admin() |
-| **Admin** | Login, view ALL complaints, update status, manage admin accounts |
+| Role | Access | Capabilities |
+|------|--------|-------------|
+| **Normal User** | Basic | Register, login, submit complaints with attachments, track status, reply to admin comments, delete own complaints |
+| **Category Admin** | Restricted | View and manage complaints in assigned category only, reply with evidence, update status |
+| **Super Admin** | Full | All complaints, manage categories, create/delete/assign admin roles, export data |
 
-> Admins cannot submit complaints. Users cannot access the admin panel.
-> After login, each role is automatically redirected to their correct dashboard.
+### Admin Sub-Roles
+
+| Admin Role | Category Visibility |
+|---|---|
+| Super Admin | All categories — no restriction |
+| Finance Admin | Financial complaints only |
+| HR Admin | Staff Conduct complaints only |
+| Academic Admin | Academic complaints only |
+| Facilities Admin | Facilities complaints only |
+| IT Admin | IT / Technology complaints only |
+| Accommodation Admin | Accommodation complaints only |
+| Other Admin | Other complaints only |
 
 ---
 
-## System Features
+## Features
 
-| Feature | Status |
-|---------|--------|
-| User registration & login | ✅ |
-| Admin login | ✅ |
-| Role-based access control (admin / user) | ✅ |
-| User dashboard — own complaints + stats | ✅ |
-| Admin dashboard — all complaints + stats | ✅ |
-| Submit complaint (users only) | ✅ |
-| View complaint details | ✅ |
-| Search & filter complaints (admin) | ✅ |
-| Update complaint status | ✅ |
-| Delete complaint | ✅ |
-| Pagination | ✅ |
-| Manage admin accounts (create / delete) | ✅ |
-| Input validation on all forms | ✅ |
-| All users can add comments to the complain. these comments can also be replied to
-| file attachment(optional) to the complaint. allowed files include images, audio and video
-|Report generation (pdf report or csv data export) 
+- User registration and login with role-based redirect
+- Submit complaints with file attachments (images, PDF, audio, video — max 20MB)
+- Track complaint status: Pending → In Progress → Resolved
+- Two-way comments with file evidence attachments
+- Email notifications on submission and status change
+- Admin sub-roles — category-restricted complaint visibility
+- Category management (super admin)
+- Search and filter complaints by keyword, status, category
+- Export complaints to CSV and PDF
+- Pagination across all complaint lists
+- Professional sidebar UI with role-aware navigation
+
 ---
 
 ## Setup Instructions
@@ -50,46 +58,71 @@
 - PostgreSQL
 - Laragon (recommended on Windows)
 
----
-
 ### Step 1 — Create a fresh Laravel project
 ```bash
 composer create-project laravel/laravel complaints-system
 cd complaints-system
 ```
 
-### Step 2 — Copy files from Source_Code into your project
+### Step 2 — Copy all files from Source_Code into your project
 
-| From Source_Code | Copy to project |
-|---|---|
+**New files to create:**
+
+| File | Location |
+|------|---------|
+| `app/Models/Category.php` | `app/Models/` |
+| `app/Models/Comment.php` | `app/Models/` |
+| `app/Mail/ComplaintSubmitted.php` | `app/Mail/` |
+| `app/Mail/StatusUpdated.php` | `app/Mail/` |
+| `app/Http/Controllers/CategoryController.php` | `app/Http/Controllers/` |
+| `app/Http/Middleware/RoleMiddleware.php` | `app/Http/Middleware/` |
+| `resources/views/categories/index.blade.php` | `resources/views/categories/` |
+| `resources/views/emails/complaint_submitted.blade.php` | `resources/views/emails/` |
+| `resources/views/emails/status_updated.blade.php` | `resources/views/emails/` |
+| `resources/views/complaints/pdf.blade.php` | `resources/views/complaints/` |
+
+**Files to replace:**
+
+| File | Replace in project |
+|------|--------------------|
 | `app/Models/User.php` | `app/Models/` |
 | `app/Models/Complaint.php` | `app/Models/` |
 | `app/Http/Controllers/AuthController.php` | `app/Http/Controllers/` |
 | `app/Http/Controllers/ComplaintController.php` | `app/Http/Controllers/` |
 | `app/Http/Controllers/AdminController.php` | `app/Http/Controllers/` |
 | `app/Http/Controllers/Controller.php` | `app/Http/Controllers/` |
-| `app/Http/Middleware/RoleMiddleware.php` | `app/Http/Middleware/` |
-| `resources/views/` (entire folder) | `resources/views/` |
-| `routes/web.php` | `routes/` |
-| `database/migrations/` (both files) | `database/migrations/` |
+| `resources/views/layouts/app.blade.php` | `resources/views/layouts/` |
+| `resources/views/auth/login.blade.php` | `resources/views/auth/` |
+| `resources/views/auth/register.blade.php` | `resources/views/auth/` |
+| `resources/views/complaints/create.blade.php` | `resources/views/complaints/` |
+| `resources/views/complaints/show.blade.php` | `resources/views/complaints/` |
+| `resources/views/complaints/index.blade.php` | `resources/views/complaints/` |
+| `resources/views/complaints/edit.blade.php` | `resources/views/complaints/` |
+| `resources/views/dashboard/user.blade.php` | `resources/views/dashboard/` |
+| `resources/views/dashboard/admin.blade.php` | `resources/views/dashboard/` |
+| `resources/views/admin/admins.blade.php` | `resources/views/admin/` |
+| `database/migrations/` (all files) | `database/migrations/` |
 | `database/seeders/AdminSeeder.php` | `database/seeders/` |
+| `database/seeders/CategorySeeder.php` | `database/seeders/` |
+| `database/seeders/DatabaseSeeder.php` | `database/seeders/` |
+| `routes/web.php` | `routes/` |
 | `bootstrap/app.php` | `bootstrap/` |
-| `.env.example` → rename to `.env` | project root |
 
 ### Step 3 — Install dependencies
 ```bash
 composer install
+composer require barryvdh/laravel-dompdf
 ```
 
 ### Step 4 — Configure .env
-Open `.env` and update the database section:
+Copy `.env.example` to `.env` and update the database section:
 ```
 DB_CONNECTION=pgsql
 DB_HOST=127.0.0.1
 DB_PORT=5432
 DB_DATABASE=complaints_db
-DB_USERNAME=postgres(if you don't use default username, put here what you use as your postgresql username)
-DB_PASSWORD= put here your database password
+DB_USERNAME=postgres
+DB_PASSWORD=your_password
 ```
 
 ### Step 5 — Generate app key
@@ -97,33 +130,38 @@ DB_PASSWORD= put here your database password
 php artisan key:generate
 ```
 
-### Step 6 — Run migrations
+### Step 6 — Create storage symlink
+```bash
+php artisan storage:link
+```
+
+### Step 7 — Run migrations
 ```bash
 php artisan migrate
 ```
 
-### Step 7 — Seed the default admin
+### Step 8 — Seed default data
 ```bash
-php artisan db:seed --class=AdminSeeder
+php artisan db:seed
 ```
+This creates the default admin account and 7 complaint categories.
 
-### Step 8 — Start the server
+### Step 9 — Start the server
 ```bash
 php artisan serve
 ```
 
-Open http://127.0.0.1:8000 in your browser.
+Open **http://127.0.0.1:8000** in your browser.
 
 ---
 
-## Default Admin Credentials
-| Field    | Value                |
-|----------|----------------------|
-| Email    | admin@complaints.com |
-| Password | admin123             |
+## Default Credentials
 
-## Normal User
-Register at http://127.0.0.1:8000/register
+| Role | Email | Password |
+|------|-------|---------|
+| Super Admin | admin@complaints.com | admin123 |
+
+Normal users register at **/register**.
 
 ---
 
@@ -137,40 +175,24 @@ Register at http://127.0.0.1:8000/register
 | Submit complaint | `/complaints/create` | Users only |
 | Admin dashboard | `/admin/dashboard` | Admins only |
 | All complaints | `/admin/complaints` | Admins only |
-| Manage admins | `/admin/admins` | Admins only |
+| Categories | `/admin/categories` | Super admin only |
+| Manage admins | `/admin/admins` | Super admin only |
 
----
 
-## Troubleshooting
+## Database Schema
 
-**`Route [dashboard] not defined`**
-Replace `app/Http/Controllers/AuthController.php` with the one from Source_Code.
-
-**`Controller.php not found`**
-Create `app/Http/Controllers/Controller.php` with:
-```php
-<?php
-namespace App\Http\Controllers;
-abstract class Controller {}
+```
+users          — id, name, email, password, role, admin_role, timestamps
+categories     — id, name, description, timestamps
+complaints     — id, user_id, category_id, description, status, attachment, attachment_type, timestamps
+comments       — id, complaint_id, user_id, body, attachment, attachment_type, timestamps
 ```
 
-**`relation "cache" does not exist`**
-Run `php artisan migrate` to create missing tables.
-
-**`vendor/autoload.php not found`**
-Run `composer install` first.
-
-**`bootstrap/cache not writable`**
-Run `mkdir bootstrap/cache`
-
----
-
 ## Technologies
+
 - **Language:** PHP 8.1+
 - **Framework:** Laravel 10+
 - **Database:** PostgreSQL
 - **Frontend:** Bootstrap 5.3, Font Awesome 6
+- **PDF Export:** barryvdh/laravel-dompdf
 - **Tools:** VS Code, Laragon
-
-  
-Access this live project at:url to the deployed project(to be put soon)
