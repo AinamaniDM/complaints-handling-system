@@ -7,8 +7,7 @@ Uganda Technology and Management University (UTAMU)
 **Tech Stack:** Laravel 10+, PostgreSQL
 
 ------------------------------------------------------------------------
-
-## 🚀 Overview
+## Overview
 
 A web-based system for submitting, tracking, and resolving complaints in
 a structured, role-based environment.
@@ -20,7 +19,7 @@ with a centralized platform that ensures: - Accountability\
 
 ------------------------------------------------------------------------
 
-## 👥 User Roles
+## User Roles
 
   -----------------------------------------------------------------------
   Role                    Description
@@ -29,9 +28,8 @@ with a centralized platform that ensures: - Accountability\
                           communicate with admins
 
   **Category Admin**      Manage complaints within a specific category
-
-  **Super Admin**         Full system control (users, categories, all
-                          complaints)
+  **Super Admin**         Full system control( users, categories, all complaints)
+  
   -----------------------------------------------------------------------
 
 ### Admin Categories
@@ -40,21 +38,21 @@ Finance, HR, Academic, Facilities, IT, Accommodation, Other
 
 ------------------------------------------------------------------------
 
-## ✨ Key Features
+## Key Features
 
--   🔐 Role-based authentication & access control\
--   📎 Complaint submission with file attachments\
--   🔄 Status tracking (Pending → In Progress → Resolved)\
--   💬 Two-way comments with attachments\
--   📧 Email notifications (submission & status updates)\
--   🗂️ Category management (Super Admin)\
--   🔎 Search & filtering (status, category, keywords)\
--   📊 Export to CSV & PDF\
--   📱 Responsive UI (Bootstrap 5)
+-   Role-based authentication & access control\
+-   Complaint submission with file attachments\
+-   Status tracking (Pending → In Progress → Resolved)\
+-   Two-way comments with attachments\
+-   Email notifications (submission & status updates)\
+-   Category management (Super Admin)\
+-   Search & filtering (status, category, keywords)\
+-   Export to CSV & PDF\
+-   Responsive UI (Bootstrap 5)
 
 ------------------------------------------------------------------------
 
-## ⚙️ Setup
+## Setup
 
 ### Requirements
 
