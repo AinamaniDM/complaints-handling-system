@@ -1,8 +1,7 @@
 # Online Complaints Handling System
 
-**Student:** Ainamani Dickson | **Reg No:** JAN23/BSE/2433U
-**Course:** Selected Topics in Software Engineering — CSE 4200
-**Institution:** Uganda Technology and Management University (UTAMU)
+**Student:** Ainamani Dickson 
+**Course:** Selected Topics in Software Engineering
 **Framework:** Laravel 10+ (PHP) | **Database:** PostgreSQL
 
 ## System Description
