@@ -63,7 +63,7 @@ Finance, HR, Academic, Facilities, IT, Accommodation, Other
 ### Installation
 
 ``` bash
-git clone <your-repo-url>
+git clone https://github.com/AinamaniDM/complaints-handling-system
 cd complaints-system
 
 composer install
